@@ -24,7 +24,7 @@ const storage = multer.diskStorage({
 
 
 app.post('/upload', upload.single('file'), function (req: any, res: Response) {
-    storage.readFile(req.file.path, (err) => {
+    fs.readFile(req.file.path, (err) => {
         if (err) {
             console.log("Error: ",err);
             res.status(500).json({ error: err});
