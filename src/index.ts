@@ -12,12 +12,12 @@ app.get("/", (_, res) => {
 });
 
 const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-      cb(null, path.join(__dirname, "../uploads/"))
+    destination: function (req, file, callback) {
+      callback(null, path.join(__dirname, "../uploads/"))
     },
-    filename: function (req, file, cb) {
+    filename: function (req, file, callback) {
       const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
-      cb(null, Date.now() + '-' + file.originalname);
+      callback(null, Date.now() + '-' + file.originalname);
     },
   });
   const upload = multer({ storage: storage });
@@ -29,6 +29,7 @@ app.post('/upload', upload.single('file'), function (req: any, res: Response) {
             console.log("Error: ",err);
             res.status(500).json({ error: err});
         } else {
+          console.log("file", file);
             res
             .status(201)
             .json({ status: "success", filename: "/files/" + req.file.filename });
