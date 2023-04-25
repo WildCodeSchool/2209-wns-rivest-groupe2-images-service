@@ -29,7 +29,7 @@ app.post('/upload', upload.single('file'), function (req: any, res: Response) {
             console.log("Error: ",err);
             res.status(500).json({ error: err});
         } else {
-          console.log("file", file);
+          console.log("files", file);
             res
             .status(201)
             .json({ status: "success", filename: "/files/" + req.file.filename });
