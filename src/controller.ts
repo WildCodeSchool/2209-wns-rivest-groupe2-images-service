@@ -1,9 +1,19 @@
-import { Request, Response } from "express";
+import { Request as ExpressRequest} from "express";
+import { Response } from "express";
 import path from "path";
 import fs from "fs";
 
+interface User {
+    id: string;
+  }
+  
+  interface Request extends ExpressRequest {
+    user: User;
+  }
+
 const Controller = {
     postImage: (req: Request, res: Response) => {
+        const userId = req.user.id;
         if (req.file?.path) {
           fs.readFile(req.file.path, (err) => {
         if (err) {
@@ -19,7 +29,7 @@ const Controller = {
         }
         });
     };
-    
+    },
     getImage: (req: Request, res: Response) => {
         let file = path.join(__dirname + "/../uploads", req.params.filename);
         console.log("file", file);
@@ -34,7 +44,7 @@ const Controller = {
             res.end();
             }
         });
-    };
+    },
 
-    deleteImage: (req: Request, res: Response) => {};
-},
+    deleteImage: (req: Request, res: Response) => {},
+}
