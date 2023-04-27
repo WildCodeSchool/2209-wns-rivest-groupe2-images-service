@@ -9,7 +9,7 @@ const MIME_TYPES = {
 };
 
 
-const storage = multer.diskStorage({ // Configure multer
+const storage = diskStorage({ // Configure multer
   destination: (req, file, callback) => { // Indique où enregistrer les fichiers
     callback(null, path.join(__dirname, "../uploads/"));
   },
@@ -20,4 +20,5 @@ const storage = multer.diskStorage({ // Configure multer
     callback(null, name + '-' + uniqueSuffix + '.' + extension); // Génère le nom unique
   }
 });
-export default multer({storage: storage}).single('image');
+export { storage };
+export default multer({ storage }).single('image');

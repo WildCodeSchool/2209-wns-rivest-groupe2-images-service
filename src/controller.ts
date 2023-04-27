@@ -48,3 +48,5 @@ const Controller = {
 
     deleteImage: (req: Request, res: Response) => {},
 }
+
+export default Controller;
