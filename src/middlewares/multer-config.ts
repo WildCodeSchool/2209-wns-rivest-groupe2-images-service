@@ -11,7 +11,7 @@ const MIME_TYPES = {
 
 const storage = diskStorage({ // Configure multer
   destination: (req, file, callback) => { // Indique où enregistrer les fichiers
-    callback(null, path.join(__dirname, "../uploads/"));
+    callback(null, path.join(__dirname, "../upload/"));
   },
   filename: (req, file, callback) => { // Indique le nom du fichier
     const name = file.originalname.split(' ').join('_'); // Retire les potentiels espaces

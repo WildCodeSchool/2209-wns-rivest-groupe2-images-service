@@ -31,7 +31,7 @@ const Controller = {
     };
     },
     getImage: (req: Request, res: Response) => {
-        let file = path.join(__dirname + "/../uploads", req.params.filename);
+        let file = path.join(__dirname + "/../upload", req.params.filename);
         console.log("file", file);
         fs.readFile(file, (err, content) => {
             if (err) {
