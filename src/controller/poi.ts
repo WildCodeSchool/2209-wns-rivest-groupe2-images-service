@@ -1,9 +1,14 @@
 import { Request, Response } from "express";
 import fs from "fs";
 import path from "path";
+import { CustomRequest } from "../services/auth";
 
 const PoiController = {
   create: (req: Request, res: Response) => {
+    const dataReq = req as CustomRequest;
+
+    const poiId = dataReq.params.poiId;
+
     if (req.file?.path) {
       fs.readFile(req.file.path, (err) => {
         if (err) {
@@ -11,7 +16,7 @@ const PoiController = {
           res.status(500).json({ error: err });
         } else {
           if (req.file?.filename) {
-            const imgPath = `/pois/${req.file.filename}`;
+            const imgPath = `/pois/${poiId}/${req.file.filename}`;
             res.status(201).json({
               status: "success",
               filename: imgPath,
@@ -25,7 +30,8 @@ const PoiController = {
   read: (req: Request, res: Response) => {
     const file = path.join(
       __dirname,
-      "/../../uploads/pois",
+      "/../../uploads/pois/",
+      req.params.poiId,
       req.params.filename
     );
     fs.readFile(file, (err, content) => {
@@ -43,9 +49,13 @@ const PoiController = {
   },
 
   update: (req: Request, res: Response) => {
+    const dataReq = req as CustomRequest;
+    const poiId = dataReq.params.poiId;
+
     const oldFile = path.join(
       __dirname,
-      "/../../uploads/pois",
+      "/../../uploads/pois/",
+      req.params.poiId,
       req.params.oldFilename
     );
 
@@ -56,7 +66,7 @@ const PoiController = {
           res.status(500).json({ error: err });
         } else {
           if (req.file?.filename) {
-            const imgPath = `/pois/${req.file.filename}`;
+            const imgPath = `/pois/${poiId}/${req.file.filename}`;
             fs.unlink(oldFile, (err) => {
               if (err) {
                 res.writeHead(404, { "Content-Type": "text" });
@@ -78,7 +88,8 @@ const PoiController = {
   delete: (req: Request, res: Response) => {
     const file = path.join(
       __dirname,
-      "/../../uploads/pois",
+      "/../../uploads/pois/",
+      req.params.poiId,
       req.params.filename
     );
     fs.unlink(file, (err) => {
@@ -94,15 +105,11 @@ const PoiController = {
     });
   },
 
-  /* deleteAll: (req: Request, res: Response) => {
-    const dataReq = req as CustomRequest;
-    const userId = dataReq.userId;
-
+  deleteAll: (req: Request, res: Response) => {
     const directory = path.join(
       __dirname,
       "/../../uploads/",
-      userId,
-      req.params.blog,
+      req.params.poiId,
       "/"
     );
     if (fs.existsSync(directory)) {
@@ -113,7 +120,7 @@ const PoiController = {
     } else {
       throw new Error("Blog Not Found");
     }
-  }, */
+  },
 };
 
 export default PoiController;

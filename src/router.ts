@@ -10,16 +10,17 @@ import slugify from "slugify";
 
 const storage = multer.diskStorage({
   destination: function (req, _, cb) {
-    const reqData = req as CustomRequest;
-    console.log("reqData", reqData);
+    const dataReq = req as CustomRequest;
     let dirPath = path.join(__dirname, "../uploads/");
+    console.log("dataReq: ", dataReq);
+    const { poiId, userId } = dataReq.params;
 
-    if (req.route.path.includes("pois")) {
-      dirPath = path.join(dirPath, "pois/");
+    if (poiId) {
+      dirPath = path.join(dirPath, "/pois/", poiId, "/");
     }
 
-    if (req.route.path.includes("avatar")) {
-      dirPath = path.join(dirPath, "avatar/");
+    if (userId) {
+      dirPath = path.join(dirPath, "/avatar/", userId, "/");
     }
 
     fs.mkdirSync(dirPath, { recursive: true });
@@ -52,7 +53,7 @@ router.post(
   upload.single("file"),
   AvatarController.create
 );
-router.get("/users/:user/avatars/:filename", AvatarController.read);
+router.get("/users/:userId/avatars/:filename", AvatarController.read);
 router.put(
   "/update-avatar/:oldFilename",
   auth,
@@ -63,15 +64,20 @@ router.delete("/delete/avatars/:filename", auth, AvatarController.delete);
 router.delete("/delete-user", auth, AvatarController.deleteAll);
 
 /* Routes for a POI */
-router.post("/upload/pois", auth, upload.single("file"), PoiController.create);
-router.get("/pois/:filename", PoiController.read);
+router.post(
+  "/upload/pois/:poiId",
+  auth,
+  upload.single("file"),
+  PoiController.create
+);
+router.get("/pois/:poiId/:filename", PoiController.read);
 router.put(
-  "/update/pois/:oldFilename",
+  "/update/pois/:poiId/:oldFilename",
   auth,
   upload.single("file"),
   PoiController.update
 );
-router.delete("/delete/pois/:filename", auth, PoiController.delete);
-/* router.delete("/delete-poi/:poi", auth, PoiController.deleteAll); */
+router.delete("/delete/pois/:poiId/:filename", auth, PoiController.delete);
+router.delete("/delete-poi/:poiId", auth, PoiController.deleteAll);
 
 export default router;
