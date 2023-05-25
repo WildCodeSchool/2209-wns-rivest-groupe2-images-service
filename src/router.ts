@@ -12,15 +12,14 @@ const storage = multer.diskStorage({
   destination: function (req, _, cb) {
     const dataReq = req as CustomRequest;
     let dirPath = path.join(__dirname, "../uploads/");
-    console.log("dataReq: ", dataReq);
-    const { poiId, userId } = dataReq.params;
+    const { poiId } = dataReq.params;
 
     if (poiId) {
       dirPath = path.join(dirPath, "/pois/", poiId, "/");
     }
 
-    if (userId) {
-      dirPath = path.join(dirPath, "/avatar/", userId, "/");
+    if (dataReq.userId) {
+      dirPath = path.join(dirPath, "/avatar/", dataReq.userId, "/");
     }
 
     fs.mkdirSync(dirPath, { recursive: true });
