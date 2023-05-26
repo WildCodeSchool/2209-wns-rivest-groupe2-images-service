@@ -47,36 +47,44 @@ const router = express.Router();
 
 /*  Routes for an user */
 router.post(
-  "/upload/avatar",
+  "/images/upload/avatar",
   auth,
   upload.single("file"),
   AvatarController.create
 );
-router.get("/users/:userId/avatars/:filename", AvatarController.read);
+router.get("/images/users/:userId/avatars/:filename", AvatarController.read);
 router.put(
-  "/update-avatar/:oldFilename",
+  "/images/update-avatar/:oldFilename",
   auth,
   upload.single("file"),
   AvatarController.update
 );
-router.delete("/delete/avatars/:filename", auth, AvatarController.delete);
-router.delete("/delete-user", auth, AvatarController.deleteAll);
+router.delete(
+  "/images/delete/avatars/:filename",
+  auth,
+  AvatarController.delete
+);
+router.delete("/images/delete-user", auth, AvatarController.deleteAll);
 
 /* Routes for a POI */
 router.post(
-  "/upload/pois/:poiId",
+  "/images/upload/pois/:poiId",
   auth,
   upload.single("file"),
   PoiController.create
 );
-router.get("/pois/:poiId/:filename", PoiController.read);
+router.get("/images/pois/:poiId/:filename", PoiController.read);
 router.put(
-  "/update/pois/:poiId/:oldFilename",
+  "/images/update/pois/:poiId/:oldFilename",
   auth,
   upload.single("file"),
   PoiController.update
 );
-router.delete("/delete/pois/:poiId/:filename", auth, PoiController.delete);
-router.delete("/delete-poi/:poiId", auth, PoiController.deleteAll);
+router.delete(
+  "/images/delete/pois/:poiId/:filename",
+  auth,
+  PoiController.delete
+);
+router.delete("/images/delete-poi/:poiId", auth, PoiController.deleteAll);
 
 export default router;
