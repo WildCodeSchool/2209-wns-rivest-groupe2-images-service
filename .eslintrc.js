@@ -8,7 +8,7 @@ module.exports = {
   parserOptions: {
     ecmaVersion: "latest",
     sourceType: "module",
-    project: ["./tsconfig.json"],
+    project: ["images-upload-service/tsconfig.json"],
   },
   rules: {
     "@typescript-eslint/strict-boolean-expressions": "off",
