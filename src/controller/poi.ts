@@ -7,7 +7,6 @@ const PoiController = {
   create: (req: Request, res: Response) => {
     const files: any = req.files;
     const arrayFiles = [...files];
-    console.log("files", files);
 
     if (!arrayFiles) {
       return res
