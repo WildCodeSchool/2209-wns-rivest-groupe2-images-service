@@ -2,9 +2,12 @@
 import { Request, Response } from "express";
 import fs from "fs";
 import path from "path";
+import { CustomRequest } from "../services/auth";
 
 const PoiController = {
   create: (req: Request, res: Response) => {
+    const dataReq = req as CustomRequest;
+    const { poiId } = dataReq.params;
     const files: any = req.files;
     const arrayFiles = [...files];
 
@@ -15,20 +18,21 @@ const PoiController = {
     }
     const data: Array<{ status: string; filename: string }> = [];
     arrayFiles.forEach((element: any) => {
-      const imgPath = `/pois/${element.filename}`;
+      const imgPath = `/pois/${poiId}/${element.filename}`;
       data.push({
         status: "success",
         filename: imgPath,
       });
     });
-
-    res.json(data);
+    res.status(201).json(data);
   },
 
   read: (req: Request, res: Response) => {
+    const { poiId } = req.params;
     const file = path.join(
       __dirname,
       "/../../uploads/pois/",
+      poiId,
       req.params.filename
     );
     fs.readFile(file, (err, content) => {
@@ -46,9 +50,11 @@ const PoiController = {
   },
 
   delete: (req: Request, res: Response) => {
+    const { poiId } = req.params;
     const file = path.join(
       __dirname,
       "/../../uploads/pois/",
+      poiId,
       req.params.filename
     );
     fs.unlink(file, (err) => {
