@@ -28,8 +28,17 @@ router.delete(
 router.delete("/images/delete-user", auth, AvatarController.deleteAll);
 
 /* Routes for a POI */
-router.post("/images/upload/pois", auth, multiUpload, PoiController.create);
-router.get("/images/pois/:filename", PoiController.read);
-router.delete("/images/delete/pois/:filename", auth, PoiController.delete);
+router.post(
+  "/images/upload/pois/:poiId",
+  auth,
+  multiUpload,
+  PoiController.create
+);
+router.get("/images/pois/:poiId/:filename", PoiController.read);
+router.delete(
+  "/images/delete/pois/:poiId/:filename",
+  auth,
+  PoiController.delete
+);
 
 export default router;
