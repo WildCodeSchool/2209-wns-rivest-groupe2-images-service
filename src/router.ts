@@ -8,24 +8,17 @@ const router = express.Router();
 
 /*  Routes for an user */
 router.post(
-  "/images/upload/avatar",
+  "/images/upload/avatar/:userId",
   auth,
   upload.single("file"),
   AvatarController.create
 );
-router.get("/images/users/:userId/avatars/:filename", AvatarController.read);
-router.put(
-  "/images/update-avatar/:oldFilename",
-  auth,
-  upload.single("file"),
-  AvatarController.update
-);
+router.get("/images/avatars/:userId/:filename", AvatarController.read);
 router.delete(
-  "/images/delete/avatars/:filename",
+  "/images/delete/avatars/:userId/:filename",
   auth,
   AvatarController.delete
 );
-router.delete("/images/delete-user", auth, AvatarController.deleteAll);
 
 /* Routes for a POI */
 router.post(

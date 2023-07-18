@@ -7,14 +7,14 @@ import slugify from "slugify";
 const storage = multer.diskStorage({
   destination: function (req, _, cb) {
     const dataReq = req as CustomRequest;
-    const { poiId } = dataReq.params;
+    const { poiId, userId } = dataReq.params;
     let dirPath = path.join(__dirname, "../../uploads/");
 
     if (poiId) {
       dirPath = path.join(dirPath, "/pois/", poiId, "/");
     }
-    if (dataReq.userId) {
-      dirPath = path.join(dirPath, "/avatar/", dataReq.userId, "/");
+    if (userId) {
+      dirPath = path.join(dirPath, "/avatar/", userId, "/");
     }
 
     fs.mkdirSync(dirPath, { recursive: true });
