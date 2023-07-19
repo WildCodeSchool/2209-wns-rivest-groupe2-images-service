@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
       dirPath = path.join(dirPath, "/pois/", poiId, "/");
     }
     if (userId) {
-      dirPath = path.join(dirPath, "/avatar/", userId, "/");
+      dirPath = path.join(dirPath, "/avatars/", userId, "/");
     }
 
     fs.mkdirSync(dirPath, { recursive: true });

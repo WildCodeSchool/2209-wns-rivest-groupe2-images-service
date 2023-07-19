@@ -8,7 +8,7 @@ const router = express.Router();
 
 /*  Routes for an user */
 router.post(
-  "/images/upload/avatar/:userId",
+  "/images/upload/avatars/:userId",
   auth,
   upload.single("file"),
   AvatarController.create
