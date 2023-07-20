@@ -8,28 +8,30 @@ const router = express.Router();
 
 /*  Routes for an user */
 router.post(
-  "/images/upload/avatar",
+  "/images/upload/avatars/:userId",
   auth,
   upload.single("file"),
   AvatarController.create
 );
-router.get("/images/users/:userId/avatars/:filename", AvatarController.read);
-router.put(
-  "/images/update-avatar/:oldFilename",
-  auth,
-  upload.single("file"),
-  AvatarController.update
-);
+router.get("/images/avatars/:userId/:filename", AvatarController.read);
 router.delete(
-  "/images/delete/avatars/:filename",
+  "/images/delete/avatars/:userId/:filename",
   auth,
   AvatarController.delete
 );
-router.delete("/images/delete-user", auth, AvatarController.deleteAll);
 
 /* Routes for a POI */
-router.post("/images/upload/pois", auth, multiUpload, PoiController.create);
-router.get("/images/pois/:filename", PoiController.read);
-router.delete("/images/delete/pois/:filename", auth, PoiController.delete);
+router.post(
+  "/images/upload/pois/:poiId",
+  auth,
+  multiUpload,
+  PoiController.create
+);
+router.get("/images/pois/:poiId/:filename", PoiController.read);
+router.delete(
+  "/images/delete/pois/:poiId/:filename",
+  auth,
+  PoiController.delete
+);
 
 export default router;
