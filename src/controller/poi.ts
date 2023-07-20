@@ -3,6 +3,7 @@ import { Request, Response } from "express";
 import fs from "fs";
 import path from "path";
 import { CustomRequest } from "../services/auth";
+import sharp from "sharp";
 
 const PoiController = {
   create: (req: Request, res: Response) => {
@@ -17,8 +18,9 @@ const PoiController = {
         .send({ message: "Please upload at least one image" });
     }
     const data: Array<{ status: string; filename: string }> = [];
-    arrayFiles.forEach((element: any) => {
+    arrayFiles.forEach(async (element: any) => {
       const imgPath = `/pois/${poiId}/${element.filename}`;
+      await sharp(element.path).resize().jpeg({ quality: 50 }).toFile(imgPath);
       data.push({
         status: "success",
         filename: imgPath,
